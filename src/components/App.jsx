@@ -1,5 +1,9 @@
+import Container from "./Container/Container";
+
 export const App = () => {
   return (
+
+    <Container>
     <div
       style={{
         height: '100vh',
@@ -10,7 +14,8 @@ export const App = () => {
         color: '#010101'
       }}
     >
-      React homework template
-    </div>
+      Hello world
+      </div>
+    </Container>
   );
 };
