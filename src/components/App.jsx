@@ -1,9 +1,37 @@
+import { Component } from 'react';
 import Container from "./Container/Container";
+import {Statistics} from './Statistics/Statistics';
 
-export const App = () => {
+
+export class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0
+  };
+
+
+  render() {
+    const { good, neutral, bad } = this.state;
+    
+
+    return (
+      <Container>
+        <h1>Please leave feedback</h1>
+        <Statistics good={good} neutral={neutral} bad={bad} />
+      </Container>
+    );
+  }
+}
+
+
+
+
+
+/*export const App = () => {
   return (
 
-    <Container>
+    
     <div
       style={{
         height: '100vh',
@@ -16,6 +44,5 @@ export const App = () => {
     >
       Hello world
       </div>
-    </Container>
   );
-};
+};*/
