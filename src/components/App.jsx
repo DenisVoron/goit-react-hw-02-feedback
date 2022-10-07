@@ -1,6 +1,10 @@
 import { Component } from 'react';
-import Container from "./Container/Container";
-import {Statistics} from './Statistics/Statistics';
+
+import { Container } from "./Container/Container";
+import { Section } from './Section/Section';
+import { Statistics } from './Statistics/Statistics';
+import { Feedback } from './FeedbackOptions/FeedbackOptions';
+import { Notification } from './Notification/Notification';
 
 
 export class App extends Component {
@@ -10,39 +14,58 @@ export class App extends Component {
     bad: 0
   };
 
+  handleClickButton = (e) => {
+    const option = e.target.name;
+
+    this.setState(prevState => ({[option]: prevState[option] + 1}));
+  }
+
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    
+    return good + neutral + bad;
+  }
+
+  countPositiveFeedbackPercentage = () => {
+    const totalFeedback = this.countTotalFeedback();
+    const goodFeedback = this.state.good;
+
+    let positivePercentage = 0;
+
+    if (goodFeedback > 0) {
+      
+      positivePercentage = Math.ceil((goodFeedback / totalFeedback) * 100);
+
+      console.log(positivePercentage);
+    }
+
+    return `${positivePercentage}%`
+  }
 
   render() {
     const { good, neutral, bad } = this.state;
+    const options = Object.keys(this.state);
     
 
     return (
       <Container>
-        <h1>Please leave feedback</h1>
-        <Statistics good={good} neutral={neutral} bad={bad} />
+        <Section title='Please leave feedback'>
+          <Feedback
+            options={options}
+            onLeaveFeedback={this.handleClickButton}
+          />
+        </Section>
+        <Section title='Statistics'>
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}
+          />
+          {this.countTotalFeedback() ? "this is one" : <Notification message="There is no feedback" />}
+        </Section>
       </Container>
     );
   }
 }
-
-
-
-
-
-/*export const App = () => {
-  return (
-
-    
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      Hello world
-      </div>
-  );
-};*/
